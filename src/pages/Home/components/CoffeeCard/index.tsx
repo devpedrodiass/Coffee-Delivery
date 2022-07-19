@@ -33,7 +33,7 @@ export function CoffeeCard() {
           <AmountCounter>3</AmountCounter>
           <AmountButton>+</AmountButton>
         </AmountSelector>
-        <CartButton>
+        <CartButton to={"/checkout"}>
           <ShoppingCart size={22}></ShoppingCart>
         </CartButton>
       </Actions>

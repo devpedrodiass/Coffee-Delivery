@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const CoffeeCardContainer = styled.div`
@@ -89,7 +90,7 @@ export const AmountButton = styled.button`
   }
 `
 
-export const CartButton = styled.button`
+export const CartButton = styled(NavLink)`
   border: 0;
   background: ${props => props.theme['purple-dark']};
   color: ${props => props.theme['white']};
