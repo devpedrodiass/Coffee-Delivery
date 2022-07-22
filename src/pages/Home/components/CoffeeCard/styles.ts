@@ -12,8 +12,14 @@ export const CoffeeCardContainer = styled.div`
   height: 370px;
   padding: 1.5rem;
 `
-export const Categories = styled.div`
+
+export const CategoriesContainer = styled.div`
   margin-top: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+`
+
+export const Category = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,14 +89,13 @@ export const AmountButton = styled.button`
   border: 0;
   color: ${props => props.theme['purple']};
   padding: 0.1rem;
-  cursor: pointer;
   :focus {
     outline: 0;
     box-shadow: 0 0 0 2px ${(props) => props.theme["purple-dark"]}
   }
 `
 
-export const CartButton = styled(NavLink)`
+export const CartButton = styled.button`
   border: 0;
   background: ${props => props.theme['purple-dark']};
   color: ${props => props.theme['white']};
@@ -99,9 +104,15 @@ export const CartButton = styled(NavLink)`
   justify-content: center;
   padding: 0.5rem;
   border-radius: 6px;
-  cursor: pointer;
-  :focus {
+  transition: all 0.2s;
+  
+  &:focus {
     outline: 0;
     box-shadow: 0 0 0 2px ${(props) => props.theme["purple"]}
+  }
+  
+  &:hover{
+    background: ${props => props.theme['purple']};
+
   }
 `

@@ -1,39 +1,93 @@
-import React from "react";
+import { useContext, useState } from "react";
 import {
   Actions,
+  AmountButton,
   AmountCounter,
   AmountSelector,
   CartButton,
-  Categories,
+  CategoriesContainer,
+  Category,
   CoffeeCardContainer,
   CoffeeDescription,
   CoffeeName,
   CoffeePrice,
-  AmountButton,
 } from "./styles";
 
+import { Minus, Plus, ShoppingCart } from "phosphor-react";
 import coffeEx from "../../../../assets/CoffeeEx.svg";
-import { ShoppingCart } from "phosphor-react";
+import { CoffeeContext } from "../../../../contexts/CoffeeContext";
+import { toast } from "react-toastify";
 
-export function CoffeeCard() {
+interface CoffeeCardProps {
+  coffeeId: string;
+  name: string;
+  description: string;
+  price: number;
+  amount: number;
+  categories: string[];
+}
+
+export function CoffeeCard({
+  amount,
+  description,
+  coffeeId,
+  name,
+  price,
+  categories,
+}: CoffeeCardProps) {
+  const { addCoffeeToCheckout, checkout } = useContext(CoffeeContext);
+  const [selectedAmount, setSelectedAmount] = useState(() => amount);
+
+  function handleAddCoffeeToCheckout() {
+    const oldCoffee = {
+      amount,
+      description,
+      id: coffeeId,
+      name,
+      price,
+      categories,
+    };
+    const newCoffee = { ...oldCoffee, amount: selectedAmount };
+    addCoffeeToCheckout(newCoffee);
+    toast.success(`${name} successfully added to your cart !`, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+    });
+    setSelectedAmount(0);
+  }
+
   return (
     <CoffeeCardContainer>
       <img src={coffeEx} alt="" />
-      <Categories>Tradicional</Categories>
-      <CoffeeName>Tradicional Express</CoffeeName>
-      <CoffeeDescription>
-        Traditional coffee made with hot water and ground beans
-      </CoffeeDescription>
+      <CategoriesContainer>
+        {categories.map((category, index) => (
+          <Category key={`${category}-${index}`}>{category}</Category>
+        ))}
+      </CategoriesContainer>
+      <CoffeeName>{name}</CoffeeName>
+      <CoffeeDescription>{description}</CoffeeDescription>
       <Actions>
         <CoffeePrice>
-          <span>R$</span> 9,90
+          <span>$</span> {price}
         </CoffeePrice>
         <AmountSelector>
-          <AmountButton>-</AmountButton>
-          <AmountCounter>3</AmountCounter>
-          <AmountButton>+</AmountButton>
+          <AmountButton
+            onClick={() =>
+              setSelectedAmount((oldState) =>
+                oldState === 0 ? 0 : oldState - 1
+              )
+            }
+          >
+            <Minus size={12} weight="bold"></Minus>
+          </AmountButton>
+          <AmountCounter>{selectedAmount}</AmountCounter>
+          <AmountButton
+            onClick={() => setSelectedAmount((oldState) => oldState + 1)}
+          >
+            <Plus size={12} weight="bold"></Plus>
+          </AmountButton>
         </AmountSelector>
-        <CartButton to={"/checkout"}>
+        <CartButton onClick={() => handleAddCoffeeToCheckout()}>
           <ShoppingCart size={22}></ShoppingCart>
         </CartButton>
       </Actions>

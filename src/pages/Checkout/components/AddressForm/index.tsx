@@ -1,15 +1,22 @@
 import { MapPinLine } from "phosphor-react";
 import React from "react";
-import { AddressFormContainer, FormSection, InputForm } from "./styles";
+import {
+  AddressFormContainer,
+  FormSection,
+  HeaderSection,
+  InputForm,
+} from "./styles";
 
 export default function AddressForm() {
   return (
     <AddressFormContainer>
-      <header>
-        <MapPinLine size={22}></MapPinLine>
-        <h1>Delivery address</h1>
+      <HeaderSection>
+        <div>
+          <MapPinLine size={22}></MapPinLine>
+          <h1>Delivery address</h1>
+        </div>
         <p>Enter the address where you want to receive your order</p>
-      </header>
+      </HeaderSection>
       <FormSection>
         <InputForm placeholder="Postal Code" width="33%"></InputForm>
         <InputForm placeholder="Street" width="100%"></InputForm>

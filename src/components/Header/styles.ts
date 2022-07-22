@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.header`
@@ -24,6 +25,8 @@ export const LocaleButton = styled(BaseButton)`
   margin-left: auto;
   background: ${props => props.theme['purple-light']};
   color: ${props => props.theme['purple-dark']};
+
+  transition: all 0.2s;
   svg {
     color: ${props => props.theme['purple']};
     margin-right: 0.25rem;
@@ -34,12 +37,24 @@ export const LocaleButton = styled(BaseButton)`
   }
   `;
 
-export const CheckoutButton = styled(BaseButton)`
+export const CheckoutButton = styled(NavLink)`
+  border-radius: 6px;
+  border: 0;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  line-height: 130%;
+  &:last-child {
+    margin-left: 1rem;
+  }
   position: relative;
   background: ${props => props.theme['yellow-light']};
   svg {
     color: ${props => props.theme['yellow-dark']};
   }
+  transition: all 0.2s;
   `;
 
 export const NotificationCounter = styled.span`
