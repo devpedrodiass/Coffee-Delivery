@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   DeliveryInformationCard,
   DeliveryTimeContainer,
@@ -12,8 +12,39 @@ import {
 } from "./styles";
 
 import orderConfirmedImage from "../../assets/orderConfirmedImage.svg";
+import { CoffeeContext } from "../../contexts/CoffeeContext";
+import { paymentMethod } from "../../reducers/coffees/reducer";
 
 export default function OrderConfirmed() {
+  const { checkout } = useContext(CoffeeContext);
+  const {
+    city,
+    complement,
+    district,
+    number,
+    paymentMethod,
+    postalCode,
+    state,
+    street,
+  } = checkout.deliveryInformation;
+
+  const paymentMethodFormated = formatPaymentMethod(paymentMethod);
+
+  function formatPaymentMethod(paymentMethod: paymentMethod) {
+    switch (paymentMethod) {
+      case "cash":
+        return "Cash";
+      case "credit":
+        return "Credit Card";
+      case "debit":
+        return "Debit Card";
+      case "none":
+        return "At door";
+      default:
+        return "At door";
+    }
+  }
+
   return (
     <OrderConfirmedContainer>
       <header>
@@ -29,22 +60,27 @@ export default function OrderConfirmed() {
             <LocaleContainer>
               <span></span>
               <p>
-                Entrega em
-                <strong> Rua João Daniel Martinelli, 102</strong>
+                Delivery in
+                <strong>
+                  {" "}
+                  {street}, {number}
+                </strong>
               </p>
-              <span>Farrapos - Porto Alegre, RS</span>
+              <span>
+                {district} - {city}, {state} - {postalCode}, {complement}
+              </span>
             </LocaleContainer>
 
             <DeliveryTimeContainer>
               <span></span>
-              <p>Previsão de entrega</p>
-              <strong>20 min - 30 min </strong>
+              <p>Delivery forecast</p>
+              <strong>20 min - 30 min</strong>
             </DeliveryTimeContainer>
 
             <PaymentMethodContainer>
               <span></span>
-              <p>Pagamento na entrega</p>
-              <strong>Cartão de Crédito</strong>
+              <p>Payment Method</p>
+              <strong>{paymentMethodFormated}</strong>
             </PaymentMethodContainer>
           </DeliveryInformationCard>
         </OrderConfirmedGradientBorder>

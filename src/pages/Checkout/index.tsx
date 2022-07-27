@@ -14,13 +14,13 @@ import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const newDeliveryInformationValidationSchema = zod.object({
-  postalCode: zod.number(),
-  street: zod.string().min(2, "Type a task"),
-  number: zod.number(),
-  complement: zod.string().min(2, "Type a task"),
-  district: zod.string().min(2, "Type a task"),
-  city: zod.string().min(2, "Type a task"),
-  state: zod.string().min(2, "Type a task"),
+  postalCode: zod.number().min(1, "Type a Postal"),
+  street: zod.string().min(1, "Type a Street"),
+  number: zod.number().min(1, "Type a Number"),
+  complement: zod.string(),
+  district: zod.string().min(1, "Type a District"),
+  city: zod.string().min(1, "Type a City"),
+  state: zod.string().min(1, "Type a Staet"),
 });
 
 type NewDeliveryInformationFormData = zod.infer<
