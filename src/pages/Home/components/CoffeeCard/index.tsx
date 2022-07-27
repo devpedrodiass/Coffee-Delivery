@@ -25,6 +25,7 @@ interface CoffeeCardProps {
   price: number;
   amount: number;
   categories: string[];
+  image: string;
 }
 
 export function CoffeeCard({
@@ -34,6 +35,7 @@ export function CoffeeCard({
   name,
   price,
   categories,
+  image,
 }: CoffeeCardProps) {
   const { addCoffeeToCheckout, checkout } = useContext(CoffeeContext);
   const [selectedAmount, setSelectedAmount] = useState(() => amount);
@@ -46,6 +48,7 @@ export function CoffeeCard({
       name,
       price,
       categories,
+      image,
     };
     const newCoffee = { ...oldCoffee, amount: selectedAmount };
     addCoffeeToCheckout(newCoffee);
@@ -58,7 +61,7 @@ export function CoffeeCard({
 
   return (
     <CoffeeCardContainer>
-      <img src={coffeEx} alt="" />
+      <img src={image} alt="" />
       <CategoriesContainer>
         {categories.map((category, index) => (
           <Category key={`${category}-${index}`}>{category}</Category>
@@ -87,7 +90,10 @@ export function CoffeeCard({
             <Plus size={12} weight="bold"></Plus>
           </AmountButton>
         </AmountSelector>
-        <CartButton onClick={() => handleAddCoffeeToCheckout()}>
+        <CartButton
+          disabled={!selectedAmount}
+          onClick={() => handleAddCoffeeToCheckout()}
+        >
           <ShoppingCart size={22}></ShoppingCart>
         </CartButton>
       </Actions>

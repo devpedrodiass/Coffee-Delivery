@@ -13,17 +13,20 @@ export function CoffeeList() {
     <CoffeeListContainer>
       <CoffeeListTitle>Our Coffees</CoffeeListTitle>
       <CoffeeCardListSection>
-        {coffees.map(({ amount, categories, description, id, name, price }) => (
-          <CoffeeCard
-            key={id}
-            amount={amount}
-            categories={categories}
-            description={description}
-            coffeeId={id}
-            name={name}
-            price={price}
-          ></CoffeeCard>
-        ))}
+        {coffees.map(
+          ({ amount, categories, description, id, name, price, image }) => (
+            <CoffeeCard
+              key={id}
+              image={image}
+              amount={amount}
+              categories={categories}
+              description={description}
+              coffeeId={id}
+              name={name}
+              price={price}
+            ></CoffeeCard>
+          )
+        )}
       </CoffeeCardListSection>
     </CoffeeListContainer>
   );

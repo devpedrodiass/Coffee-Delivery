@@ -105,13 +105,18 @@ export const CartButton = styled.button`
   padding: 0.5rem;
   border-radius: 6px;
   transition: all 0.2s;
+
+  &:disabled {
+    filter: brightness(0.9);
+    cursor: not-allowed;
+  }
   
-  &:focus {
+  &:not(:disabled):focus {
     outline: 0;
     box-shadow: 0 0 0 2px ${(props) => props.theme["purple"]}
   }
   
-  &:hover{
+  &:not(:disabled):hover{
     background: ${props => props.theme['purple']};
 
   }

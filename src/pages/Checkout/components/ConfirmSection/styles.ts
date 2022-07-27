@@ -55,6 +55,11 @@ export const ConfirmButton = styled.button`
   text-transform: uppercase;
 
   transition: all 0.2s;
+
+  &:disabled {
+    cursor: not-allowed;
+    filter: brightness(0.9);
+  }
   
   &:hover {
     background: ${props => props.theme['yellow-dark']};

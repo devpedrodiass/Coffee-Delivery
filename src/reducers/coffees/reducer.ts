@@ -18,6 +18,7 @@ export interface DeliveryInformation {
 export interface Coffee {
   id: string;
   name: string;
+  image: string;
   description: string;
   price: number;
   amount: number;
@@ -38,6 +39,7 @@ export interface PayloadContent {
   selectedCoffee?: Coffee;
   selectedCoffeeId?: string
   amountType?: AmountTypeAction
+  newDeliveryInformation?: DeliveryInformation
 }
 
 export interface ActionType {
@@ -59,12 +61,12 @@ export function coffeeReducer(state: CoffeeState, action: ActionType) {
           alreadyExistsOnList
         ) {
           selectedCoffeeIndex = state.checkout.selectedCoffee.findIndex(coffee => coffee.id === action.payload.selectedCoffee?.id)
-          draft.checkout.selectedCoffee[selectedCoffeeIndex].amount = draft.checkout.selectedCoffee[selectedCoffeeIndex].amount + 1
+          if (action.payload.selectedCoffee?.amount) {
+            draft.checkout.selectedCoffee[selectedCoffeeIndex].amount = draft.checkout.selectedCoffee[selectedCoffeeIndex].amount + action.payload.selectedCoffee?.amount
+          }
         } else {
           draft.checkout.selectedCoffee.push(action.payload.selectedCoffee ?? {} as Coffee);
         }
-        console.log(alreadyExistsOnList)
-        console.log(selectedCoffeeIndex)
 
       });
     }
@@ -77,22 +79,38 @@ export function coffeeReducer(state: CoffeeState, action: ActionType) {
         draft.checkout.selectedCoffee.splice(selectedCoffeeIndexForRemove, 1);
       });
     case ActionTypes.ADD_OR_REMOVE_AMOUNT_FROM_SELECTED_COFFEE:
+      console.log('Entrou')
       if (!action.payload.selectedCoffeeId) {
         return state
       }
+
       const selectedCoffeeIndexForAmount = state.checkout.selectedCoffee.findIndex(coffee => coffee.id === action.payload.selectedCoffeeId)
 
+      console.log('Index: ', selectedCoffeeIndexForAmount)
+      console.log('Type: ', action.payload.amountType)
       if (action.payload.amountType === 'ADD') {
+        console.log('Add')
         return produce(state, (draft) => {
           draft.checkout.selectedCoffee[selectedCoffeeIndexForAmount].amount = draft.checkout.selectedCoffee[selectedCoffeeIndexForAmount].amount + 1;
         });
 
       } else if (action.payload.amountType === 'REMOVE') {
+        console.log('Remove')
 
         return produce(state, (draft) => {
-          draft.checkout.selectedCoffee[selectedCoffeeIndexForAmount].amount = draft.checkout.selectedCoffee[selectedCoffeeIndexForAmount].amount - 1;
+          draft.checkout.selectedCoffee[selectedCoffeeIndexForAmount].amount = draft.checkout.selectedCoffee[selectedCoffeeIndexForAmount].amount === 0 ? 0 : draft.checkout.selectedCoffee[selectedCoffeeIndexForAmount].amount - 1;
         });
       }
+
+    case ActionTypes.ADD_DELIVERY_INFORMATION: {
+      if (!action.payload.newDeliveryInformation) {
+        return state
+      }
+      return produce(state, (draft) => {
+        if (action.payload.newDeliveryInformation)
+          draft.checkout.deliveryInformation = action.payload.newDeliveryInformation
+      })
+    }
 
     default:
       return state;
